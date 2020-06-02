@@ -42,7 +42,16 @@ function accountDetails(){
     let accountsDiv = document.querySelectorAll('.account');
     accountsDiv.forEach(div =>{div.onclick = function(event){
           console.log(event);
+          let accountDiv = event.target.closest('.account');
+          let idSpan = accountDiv.querySelector('span').textContent;
+          let currentTrans = [];
+          BankDb.Transactions.forEach(t => {if(t.AccountId == idSpan){
+              currentTrans.push(t);  
+          }})
+          document.querySelector('.details-panel').innerHTML = render(templates.accountDetails,currentTrans)
+
     }})
+   
 
 }
 
@@ -57,7 +66,7 @@ let templates = {
         <div> <label>ID: </label> <span>[ID]</span> </div>
         <div> <label>AccountId: </label> <span>[AccountId]</span> </div>
         <div> <label>Type: </label> <span>[Type]</span> </div>
-        <div> <label>Amount: </label> <span>[Amount]</span> </div>`
+        <div> <label>Amount: </label> <span>[Amount]</span> </div></div>`
 }
 
 // class Transaction {

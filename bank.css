@@ -29,3 +29,15 @@ section{
     height: 45vh;
     overflow: auto;
 }
+
+.account-details{
+    padding: 5px;
+    border: 1px solid blueviolet;
+    margin: 5px 0;
+}
+
+.details-panel{
+    height: 45vh;
+    overflow: auto; 
+}
+
