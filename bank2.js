@@ -2,11 +2,12 @@ document.onreadystatechange = function(ev){
     if (document.readyState == "complete") {
         console.log('i am ready - ready state');
         bankStart();
-        accountDetails();
+    
+        // accountDetails();
     } 
 }
 
-function bankStart(){
+function customersAccount(){
     console.log('bankStart');
 
     //document.querySelector('.accounts-list').innerHTML = shukiRender(templates.account, BankDb.Accounts)
@@ -23,9 +24,34 @@ function bankStart(){
     });
 
     document.querySelector('.accounts-list').innerHTML = render(templates.account, accountsCustomArray)
-
 }
 
+function bankStart(){
+    document.querySelector('.customers-list').innerHTML = render(templates.customers, BankDb.Clients)
+    let customersDiv = document.querySelectorAll('.customers');
+    customersDiv.forEach(div =>{div.onclick = function(event){
+          console.log(event);
+          let customerDiv = event.target.closest('.customers');
+          let idSpan = customerDiv.querySelector('span').innerHTML;
+          let currentAccounts = [];
+          BankDb.Accounts.forEach(t => {if(t.ClientId == idSpan){
+            currentAccounts.push(t);  
+          }})
+          let accountsCustomArray = []
+          currentAccounts.forEach(acc => {
+              let myClient = BankDb.API.getCliendById(acc.ClientId)
+              let o = {
+                  ID : acc.ID,
+                  Balance : acc.Balance,
+                  ClientId : acc.ClientId,
+                  ClientFullName : myClient.lastName + ' ' + myClient.firstName
+              }
+              accountsCustomArray.push(o)
+          });
+          document.querySelector('.accounts-list').innerHTML = render(templates.account,accountsCustomArray)
+          document.querySelector(".details-panel").innerHTML = "";
+         accountDetails();
+        }})}
 /*
 class Account {
     ID;     //int
@@ -49,8 +75,9 @@ function accountDetails(){
               currentTrans.push(t);  
           }})
           document.querySelector('.details-panel').innerHTML = render(templates.accountDetails,currentTrans)
+        }})
 
-    }})
+    // }})
 }
 
 let templates = {
@@ -69,8 +96,8 @@ let templates = {
 
     customers : `<div class="customers">
     <div> <label>ID: </label> <span>[ID]</span> </div>
-    <div> <label>first name: </label> <span>[firstname]</span> </div>
-    <div> <label>last name: </label> <span>[lastname]</span> </div>
+    <div> <label>first name: </label> <span>[firstName]</span> </div>
+    <div> <label>last name: </label> <span>[lastName]</span> </div>
      </div>`    
 }
 

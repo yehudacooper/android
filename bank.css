@@ -24,6 +24,7 @@ section{
     padding: 5px;
     border: 1px solid blueviolet;
     margin: 5px 0;
+    cursor: pointer;
 }
 .bank-app{
     height: 45vh;
@@ -35,9 +36,24 @@ section{
     border: 1px solid blueviolet;
     margin: 5px 0;
 }
+.account:hover{
+    background-color: bisque;
+}
 
 .details-panel{
     height: 45vh;
     overflow: auto; 
 }
+
+.customers{
+    padding: 5px;
+    border: 1px solid blueviolet;
+    margin: 5px 0;  
+}
+
+.bank-customers{
+    height: 35vh;
+    overflow: auto;
+}
+
 
