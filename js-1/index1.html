@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="input1" name="yehuda">
+    <input id="input2" name="zone">
+
+    <h1 name="h1"></h1>
+    <clock-ex city='jerusalem' zone='2'></clock-ex>
+
+
+    <script>
+        let in1 = document.querySelector('#input1');
+        let in2 = document.querySelector('#input2');
+
+        let h1 = document.querySelector('h1');
+        let clock3 = document.querySelector('clock-ex');
+        in1.onkeyup = ev => {
+            console.log(in1.value);
+            // h1.textContent = in1.value;
+            h1.name = `${in1.value}`;
+            clock3.city = in1.value;
+            h1.textContent = h1.name;
+        }
+        in2.onkeyup = ev => {
+            console.log(in2.value);
+            // h1.textContent = in1.value;
+            // h1.name = `${in1.value}`;
+            clock3.zone = in2.value;
+            // h1.textContent = h1.name;}
+        }
+        class Clock extends HTMLElement {
+            constructor() {
+                super();
+                
+                               // let date = new Date();
+                setInterval(() => {
+                    let date = new Date();
+                    if(clock3.zone)
+                    date.setHours(date.getHours() + parseInt(clock3.zone));
+
+                    let m = date.getMinutes();
+                    let h = date.getHours();
+                    let s = date.getSeconds();
+                    this.innerHTML = `${h} : ${m} :${s}`
+                }, 1000
+                )
+
+
+
+
+            }
+
+
+        }
+        customElements.define('clock-ex', Clock);
+
+
+
+    </script>
+</body>
+
+</html>

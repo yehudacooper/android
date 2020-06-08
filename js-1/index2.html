@@ -1,0 +1,70 @@
+<style>h1, h2 {
+    font-family: Lato;
+  }
+  .flex {display: flex}
+  .flex-col {display: flex; flex-direction: column}
+  .home{
+      max-width: 50%;
+      margin: auto;
+      text-align: center;
+  }
+  </style>
+<div class="flex home">
+    <div class="flex-col">
+      <div>
+        <label>city: </label>
+        <input class="city">
+      </div>
+      <div>
+        <label>TZ: </label>
+        <input class="TZ">
+      </div>
+      <dyn-clock city="Jerusalem" tz="3" ></dyn-clock>
+      <dyn-clock city="Jerusalem" tz="3" ></dyn-clock>
+      
+    </div>
+</div>
+<script>
+    let dynClock = document.querySelector('dyn-clock')
+    document.querySelector('input.city').oninput = ev =>{
+        //console.log(ev.key);
+        dynClock.setAttribute('city', ev.target.value)
+    }
+    document.querySelector('input.tz').oninput = ev =>{
+        //console.log(ev.key);
+        dynClock.setAttribute('tz', ev.target.value)
+    }
+    // Write Javascript code!
+    class DynClock extends HTMLElement {
+      // Specify observed attributes so that
+      // attributeChangedCallback will work
+      static get observedAttributes() { return ['city', 'tz']; }
+      getTemplate(date){
+        return `${date.getHours()} : ${date.getMinutes()} : ${date.getSeconds()}`
+      }
+      constructor() {
+        // Always call super first in constructor
+        super();
+        this.shadow = this.attachShadow({mode: 'open'});
+        this.div = document.createElement('div');
+        this.shadow.appendChild(this.div);
+        this.h1 = document.createElement('h1');
+        let timeDiv  = document.createElement('div');
+        this.div.appendChild(this.h1);
+        this.div.appendChild(timeDiv);
+        setInterval(() => {
+            let d = new Date()
+            d.setHours(d.getHours() + this.tz)
+            timeDiv.innerHTML = this.getTemplate(d)
+        }, 100);
+      }//end ctor
+      attributeChangedCallback(name, oldValue, newValue) {
+        console.log('Custom DynClock element attributes changed.', name, oldValue, newValue);
+        this.h1.innerHTML = this.getAttribute('city')
+        if (name == 'tz') {
+            this.tz = parseInt(newValue)
+        }
+      }
+    }
+    customElements.define('dyn-clock', DynClock);
+</script>
